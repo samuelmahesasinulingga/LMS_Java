@@ -1,0 +1,3 @@
+Analisis dan desain algoritma adalah proses untuk memahami dan menciptakan langkah-langkah logis untuk menyelesaikan suatu masalah. Fokusnya terletak pada bagaimana memecahkan masalah dengan urutan langkah yang efektif dan efisien.
+
+Analisis melibatkan memahami algoritma yang ada, mengevaluasi performanya, dan mengidentifikasi kelebihan dan kekurangannya. Sementara itu, desain berfokus pada pembuatan algoritma baru yang sesuai untuk menyelesaikan masalah tertentu.

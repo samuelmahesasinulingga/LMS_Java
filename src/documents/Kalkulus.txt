@@ -1,0 +1,5 @@
+Kalkulus adalah cabang matematika yang berhubungan dengan perubahan. Secara sederhana, kalkulus membantu kita memahami bagaimana sesuatu berubah seiring waktu. Ada dua jenis utama dalam kalkulus, yaitu kalkulus diferensial dan kalkulus integral.
+
+Kalkulus diferensial berfokus pada perubahan yang sangat kecil dan bagaimana hal tersebut mempengaruhi nilai suatu fungsi. Misalnya, bagaimana laju pertumbuhan populasi bisa dihitung menggunakan kalkulus.
+Kalkulus integral lebih berkaitan dengan penggabungan atau penjumlahan perubahan kecil tersebut untuk mendapatkan total keseluruhan. Salah satu contohnya adalah menghitung area di bawah kurva.
+Kalkulus adalah alat yang sangat kuat dalam matematika karena membantu kita menganalisis berbagai fenomena, mulai dari perubahan cuaca hingga dinamika ekonomi. Dan tidak hanya itu, materi kalkulus juga sering digunakan dalam pemrograman, fisika, teknik, dan banyak bidang lainnya.
