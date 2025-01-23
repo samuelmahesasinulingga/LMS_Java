@@ -720,7 +720,9 @@ public class LMS_GUI {
         mainFrame.revalidate();
     }
 
+    // Method main untuk menjalankan program
     public static void main(String[] args) {
+        // Membuat instance dari kelas LMS_GUI untuk memulai aplikasi
         new LMS_GUI();
     }
 }
