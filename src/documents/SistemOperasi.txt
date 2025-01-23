@@ -1,5 +1,3 @@
 Sistem Operasi – Secara umum, sistem operasi adalah perangkat lunak pada lapisan pertama yang ditempatkan pada memori komputer pada saat komputer dinyalakan booting. Sedangkan software-software lainnya dijalankan setelah sistem operasi berjalan, dan sistem operasi akan melakukan layanan inti untuk software-software itu.
 
-Sebelum ada sistem operasi, komputer hanya menggunakan sistem sinyal analog dan sinyal digital. Seiring dengan berkembangnya pengetahuan dan teknologi, pada saat ini terdapat berbagai sistem operasi dengan keunggulannya masing-masing.
-
-Sistem operasi mempunyai penjadwalan yang sistematis mencakup perhitungan penggunaan memori, pemrosesan data, penyimpanan data, dan sumber daya lainnya. Contoh sistem operasi modern adalah Linux, Android, iOS, Mac OS X, dan Microsoft Windows.
+Sebelum ada sistem operasi, komputer hanya menggunakan sistem sinyal analog dan sinyal digital.Sistem operasi mempunyai penjadwalan yang sistematis mencakup perhitungan penggunaan memori, pemrosesan data, penyimpanan data, dan sumber daya lainnya. Contoh sistem operasi modern adalah Linux, Android, iOS, Mac OS X, dan Microsoft Windows.
