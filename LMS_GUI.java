@@ -1,30 +1,30 @@
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Map;
-import java.util.TreeMap;
-import java.net.URL;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import javax.imageio.ImageIO; // Library untuk membaca dan menulis file gambar
+import javax.swing.*; // Library untuk membuat GUI dengan komponen seperti JFrame, JButton, dll.
+import java.awt.*; // Library untuk pengaturan tampilan seperti warna, font, dan layout
+import java.io.IOException; // Library untuk menangani exception saat bekerja dengan input/output
+import java.util.ArrayList; // Library untuk bekerja dengan daftar dinamis
+import java.util.HashMap; // Library untuk menyimpan pasangan key-value yang unik
+import java.text.DecimalFormat; // Library untuk memformat angka ke dalam pola tertentu
+import java.text.ParseException; // Library untuk menangani error saat parsing tanggal
+import java.text.SimpleDateFormat; // Library untuk memformat dan memparsing tanggal
+import java.util.Map; // Library untuk bekerja dengan tipe data Map
+import java.util.TreeMap; // Library untuk menyimpan pasangan key-value yang terurut berdasarkan key
+import java.net.URL; // Library untuk bekerja dengan URL
+import java.io.BufferedReader; // Library untuk membaca teks dari input stream
+import java.io.InputStreamReader; // Library untuk membaca byte stream ke karakter
 
-// Perbaikan kelas Grades
+// Kelas untuk mengelola nilai mahasiswa
 class Grades {
-    private HashMap<String, Integer> grades;
+    private HashMap<String, Integer> grades; // Menyimpan daftar nilai mahasiswa dengan nama mata kuliah sebagai key
 
     public Grades() {
-        grades = new HashMap<>();
+        grades = new HashMap<>(); // Inisialisasi HashMap untuk menyimpan nilai
         grades.put("Sistem Operasi", 85);
         grades.put("Basis Data", 90);
         grades.put("Desain dan Analisa Algoritma", 88);
         grades.put("Kecerdasan Artifisial", 87);
-        grades.put("Kalkulus 2", 80);
-        grades.put("Pemrograman Beriorentasi Objek", 80);
+        grades.put("Kalkulus 2", 83);
+        grades.put("Pemrograman Beriorentasi Objek", 82);
         grades.put("Rekayasa Perangkat Lunak", 92);
         grades.put("Kewirausahaan 1", 84);
     }
@@ -32,6 +32,7 @@ class Grades {
     // Menampilkan daftar nilai
     public String displayGrades() {
         StringBuilder result = new StringBuilder("Nilai Mahasiswa:\n");
+        // Loop melalui daftar mata kuliah
         for (String subject : grades.keySet()) {
             result.append(subject).append(": ").append(grades.get(subject)).append("\n");
         }
@@ -46,17 +47,17 @@ class Grades {
         }
 
         double average = totalGrades / grades.size();
-        DecimalFormat formatter = new DecimalFormat("#.00");
+        DecimalFormat formatter = new DecimalFormat("#.00"); // Membuat formatter untuk membatasi angka desimal
         return "IPK: " + formatter.format(average);
     }
 }
 
 // Kelas untuk jadwal kelas
 class Schedule {
-    private HashMap<String, String[]> schedule;
+    private HashMap<String, String[]> schedule; // Menyimpan jadwal harian dengan nama hari sebagai key
 
     public Schedule() {
-        schedule = new HashMap<>();
+        schedule = new HashMap<>(); // Inisialisasi HashMap untuk menyimpan jadwal
         schedule.put("Senin", new String[] { "07.30-12.30 Sistem Operasi", "13.00-15.30 Basis Data" });
         schedule.put("Selasa",
                 new String[] { "07.30-10.00 Desain dan Analisa Algoritma", "13.00-15.30 Kecerdasan Artifisial" });
@@ -66,8 +67,9 @@ class Schedule {
         schedule.put("Jumat", new String[] { "07.30-10.00 Kewirausahaan 1" });
     }
 
+    // Mendapatkan jadwal berdasarkan hari
     public String getSchedule(String day) {
-        if (schedule.containsKey(day)) {
+        if (schedule.containsKey(day)) { // Memeriksa apakah jadwal untuk hari tersebut ada
             StringBuilder sb = new StringBuilder("Jadwal untuk " + day + ":\n");
             for (String session : schedule.get(day)) {
                 sb.append(session).append("\n");
@@ -79,46 +81,49 @@ class Schedule {
     }
 }
 
+// Kelas untuk mengelola To-Do List
 class ToDoList {
-    private TreeMap<String, ArrayList<String>> tasks; // Key: Deadline, Value: List of Tasks
-    private SimpleDateFormat dateFormat;
+    private TreeMap<String, ArrayList<String>> tasks; // Menyimpan daftar tugas dengan deadline sebagai key
+    private SimpleDateFormat dateFormat; // Format tanggal untuk validasi
 
     public ToDoList() {
-        tasks = new TreeMap<>((d1, d2) -> {
+        tasks = new TreeMap<>((d1, d2) -> { // Inisialisasi TreeMap dengan comparator untuk mengurutkan tanggal
             try {
-                return dateFormat.parse(d1).compareTo(dateFormat.parse(d2));
+                return dateFormat.parse(d1).compareTo(dateFormat.parse(d2)); // Membandingkan tanggal
             } catch (ParseException e) {
                 throw new IllegalArgumentException("Format tanggal tidak valid");
             }
         });
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Format tanggal yang digunakan
     }
 
+    // Menambahkan tugas baru
     public void addTask(String task, String deadline) {
-        if (task.isEmpty() || deadline.isEmpty()) {
+        if (task.isEmpty() || deadline.isEmpty()) { // Validasi input tidak boleh kosong
             throw new IllegalArgumentException("Tugas dan deadline tidak boleh kosong.");
         }
         try {
             dateFormat.parse(deadline); // Validasi format tanggal
-            tasks.putIfAbsent(deadline, new ArrayList<>()); // Tambahkan key jika belum ada
-            tasks.get(deadline).add(task); // Tambahkan tugas ke list pada tanggal tersebut
+            tasks.putIfAbsent(deadline, new ArrayList<>()); // Menambahkan deadline ke TreeMap jika belum ada
+            tasks.get(deadline).add(task);
         } catch (ParseException e) {
             throw new IllegalArgumentException("Format deadline harus yyyy-MM-dd.");
         }
     }
 
+    // Menghapus tugas berdasarkan indeks
     public void removeTask(int index) {
         if (index < 0 || index >= getTotalTaskCount()) {
             throw new IndexOutOfBoundsException("Indeks tugas tidak valid.");
         }
 
-        int count = 0;
-        for (Map.Entry<String, ArrayList<String>> entry : tasks.entrySet()) {
+        int count = 0; // Counter untuk melacak indeks
+        for (Map.Entry<String, ArrayList<String>> entry : tasks.entrySet()) { // Loop melalui setiap entry di TreeMap
             for (int i = 0; i < entry.getValue().size(); i++) {
                 if (count == index) {
                     entry.getValue().remove(i);
                     if (entry.getValue().isEmpty()) {
-                        tasks.remove(entry.getKey()); // Hapus tanggal jika tidak ada tugas
+                        tasks.remove(entry.getKey());
                     }
                     return;
                 }
@@ -127,14 +132,15 @@ class ToDoList {
         }
     }
 
+    // Menampilkan semua tugas
     public String displayTasks() {
         if (tasks.isEmpty()) {
             return "Tidak ada tugas dalam daftar.";
         }
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(); // String untuk menyimpan daftar tugas
         int count = 1;
-        for (Map.Entry<String, ArrayList<String>> entry : tasks.entrySet()) {
+        for (Map.Entry<String, ArrayList<String>> entry : tasks.entrySet()) { // Loop melalui setiap entry di TreeMap
             for (String task : entry.getValue()) {
                 sb.append(count++).append(". ").append(task)
                         .append(" (Deadline: ").append(entry.getKey()).append(")\n");
@@ -143,6 +149,7 @@ class ToDoList {
         return sb.toString();
     }
 
+    // Menghitung total jumlah tugas
     private int getTotalTaskCount() {
         int count = 0;
         for (ArrayList<String> taskList : tasks.values()) {
@@ -154,7 +161,6 @@ class ToDoList {
 
 // Kelas utama LMS_GUI
 public class LMS_GUI {
-
     public static String[][] imageApk = {
             { "icon", "https://github.com/samuelmahesasinulingga/LMS_Java/blob/main/src/img/Logo_LMS.jpg?raw=true" },
             { "Logo UEU", "https://github.com/samuelmahesasinulingga/LMS_Java/blob/main/src/img/Logo_UEU.png?raw=true" }
@@ -202,9 +208,10 @@ public class LMS_GUI {
     private String currentPassword = "1234";
 
     public LMS_GUI() {
-        todoList = new ToDoList(); // Inisialisasi ToDoList
+        todoList = new ToDoList();
 
-        JPanel loginPanel = new JPanel(new GridBagLayout()); // Layout untuk menempatkan semua komponen di tengah
+        // Membuat panel login dengan GridBagLayout untuk pengaturan posisi komponen
+        JPanel loginPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10); // Margin antar komponen
 
@@ -218,7 +225,7 @@ public class LMS_GUI {
         gbc.anchor = GridBagConstraints.CENTER;
         loginPanel.add(titleLabel, gbc);
 
-        // Gambar di bawah judul
+        // Menampilkan logo UEU di bawah judul
         JLabel imageLabel = new JLabel();
         try {
             // Ambil URL dari array imageApk
@@ -231,6 +238,7 @@ public class LMS_GUI {
             e.printStackTrace();
         }
 
+        // Menambahkan gambar ke panel login
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 2;
@@ -267,33 +275,34 @@ public class LMS_GUI {
         // Tombol login
         JButton loginButton = new JButton("Login");
         loginButton.setBorderPainted(false);
-        loginButton.setBackground(new Color(255, 255, 255));// inside the brackets your rgb color value
+        loginButton.setBackground(new Color(255, 255, 255));
         loginButton.setFocusPainted(false);
         gbc.gridx = 0;
         gbc.gridy = 4;
-        gbc.gridwidth = 2; // Membuat tombol berada di tengah
+        gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         loginPanel.add(loginButton, gbc);
 
         // Set posisi login panel di tengah frame
         menuPanel = new JPanel();
-        mainFrame = new JFrame("LMS Esa Unggul"); // Gunakan variabel instance
+        mainFrame = new JFrame("LMS Esa Unggul");
         try {
             // Ambil URL dari array imageApk untuk ikon frame
-            String iconUrl = imageApk[0][1]; // Key untuk icon
+            String iconUrl = imageApk[0][1];
             Image frameIcon = ImageIO.read(new URL(iconUrl));
-            mainFrame.setIconImage(frameIcon); // Set icon untuk JFrame
+            mainFrame.setIconImage(frameIcon);
         } catch (IOException e) {
             System.err.println("Gagal memuat ikon frame: " + e.getMessage());
         }
 
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(600, 500);
-        mainFrame.setLayout(new GridBagLayout()); // Frame menggunakan GridBagLayout
-        mainFrame.add(loginPanel); // Menambahkan loginPanel di tengah frame
-        mainFrame.setLocationRelativeTo(null); // Menempatkan frame di tengah layar
+        mainFrame.setLayout(new GridBagLayout());
+        mainFrame.add(loginPanel);
+        mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
 
+        // Membuat menu panel untuk menampilkan berbagai tombol setelah login
         menuPanel = new JPanel();
         JLabel menuLabel = new JLabel("Daftar Courses", SwingConstants.CENTER);
         menuLabel.setFont(new Font("Arial", Font.BOLD, 20));
@@ -312,6 +321,7 @@ public class LMS_GUI {
         JButton logoutButton = new JButton("Logout");
         styleButton(logoutButton);
 
+        // Menambahkan tombol ke menu panel
         menuPanel.add(scheduleButton);
         menuPanel.add(courseButton);
         menuPanel.add(gradesButton);
@@ -319,6 +329,7 @@ public class LMS_GUI {
         menuPanel.add(profileButton);
         menuPanel.add(logoutButton);
 
+        // Listener untuk button login
         loginButton.addActionListener(e -> {
             String username = userField.getText();
             String password = new String(passField.getPassword());
@@ -399,11 +410,13 @@ public class LMS_GUI {
             }
         });
 
+        // Listener untuk tombol logout
         logoutButton.addActionListener(e -> {
             mainFrame.setContentPane(loginPanel);
             mainFrame.revalidate();
         });
 
+        // Listener untuk button menampilkan jadwal kelas mahasiswa
         scheduleButton.addActionListener(e -> {
             JPanel schedulePanel = new JPanel(new BorderLayout());
             JLabel scheduleLabel = new JLabel("Jadwal Kelas", SwingConstants.CENTER);
@@ -431,6 +444,7 @@ public class LMS_GUI {
             mainFrame.revalidate();
         });
 
+        // Listener untuk button menampilkan daftar course dan menampilkan konten course
         courseButton.addActionListener(e -> {
             JPanel coursePanel = new JPanel(new BorderLayout());
             JLabel courseLabel = new JLabel("Daftar Courses", SwingConstants.CENTER);
@@ -529,9 +543,8 @@ public class LMS_GUI {
             mainFrame.revalidate();
         });
 
-        gradesButton.addActionListener(e ->
-
-        {
+        // Listener untuk button yang menampilkan nilai mahasiswa
+        gradesButton.addActionListener(e -> {
             JPanel gradesPanel = new JPanel(new BorderLayout());
             JLabel gradesLabel = new JLabel("Nilai Mahasiswa", SwingConstants.CENTER);
             gradesLabel.setFont(new Font("Arial", Font.BOLD, 20));
@@ -562,6 +575,7 @@ public class LMS_GUI {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
 
+        // Listener button memungkinkan pengguna untuk mengedit username dan password
         profileButton.addActionListener(e -> {
             JPanel profilePanel = new JPanel(new GridLayout(3, 2, 10, 10));
 
@@ -603,6 +617,7 @@ public class LMS_GUI {
         });
     }
 
+    // Function untuk desain button
     private void styleButton(JButton button) {
         button.setFocusPainted(false); // Hilangkan garis fokus saat diklik
         button.setBorderPainted(false); // Hilangkan border
@@ -625,11 +640,13 @@ public class LMS_GUI {
         });
     }
 
+    // Method untuk menghasilkan angka CAPTCHA secara acak
     private void generateCaptcha() {
         captchaNumber1 = (int) (Math.random() * 10) + 1; // Angka 1-10
         captchaNumber2 = (int) (Math.random() * 10) + 1; // Angka 1-10
     }
 
+    // Method untuk menampilkan panel To-Do List
     private void showToDoListPanel() {
         JPanel todoPanel = new JPanel(new BorderLayout());
         JLabel titleLabel = new JLabel("To-Do List", SwingConstants.CENTER);
@@ -640,7 +657,7 @@ public class LMS_GUI {
         todoArea.setEditable(false);
         todoArea.setText(todoList.displayTasks());
 
-        // Panel untuk input dan tombol
+        // Panel untuk input dan button di menu to-do-list
         JPanel inputPanel = new JPanel(new GridLayout(0, 2, 10, 10));
         JTextField taskField = new JTextField();
         JTextField deadlineField = new JTextField();
@@ -654,13 +671,13 @@ public class LMS_GUI {
         inputPanel.add(addButton);
         inputPanel.add(deleteButton);
 
-        // Tombol Tambah Tugas
+        // Listener untuk button Tambah Tugas
         addButton.addActionListener(e -> {
             String task = taskField.getText().trim();
             String deadline = deadlineField.getText().trim();
             try {
                 todoList.addTask(task, deadline);
-                todoArea.setText(todoList.displayTasks()); // Perbarui daftar
+                todoArea.setText(todoList.displayTasks());
                 taskField.setText("");
                 deadlineField.setText("");
             } catch (IllegalArgumentException ex) {
@@ -668,7 +685,7 @@ public class LMS_GUI {
             }
         });
 
-        // Tombol Hapus Tugas
+        // Listener untuk button Hapus Tugas
         deleteButton.addActionListener(e -> {
             String indexStr = JOptionPane.showInputDialog(mainFrame, "Masukkan nomor tugas yang ingin dihapus:");
             try {
@@ -684,6 +701,7 @@ public class LMS_GUI {
             }
         });
 
+        // Button kembali
         JButton backButton = new JButton("Kembali");
         backButton.addActionListener(ev -> {
             mainFrame.setContentPane(menuPanel);
